@@ -13,7 +13,8 @@ You can edit the shortcuts yourself in `auto_hot_keys.ahk`, but this are the cur
 3. `Windows logo key + Shift + G` to toggle both.
 
 ## How to install
-1. Clone/Download this repo
+1. Clone/Download this repo.
+	1. If downloaded as zip, remember to extract it.
 2. Download and install [AutoHotKey][1]
 3. Download [AudioDeviceCmdlets][2] (You only need the .dll file)
 	1. Move it into the same folder as this file.
