@@ -8,9 +8,9 @@ It uses [AutoHotkey](https://www.autohotkey.com/) to create the keyboard shortcu
 ## How to use
 You can edit the shortcuts yourself in `auto_hot_keys.ahk`, but this are the current shortcuts:
 
-1. `Windows logo key + Shift + S` to toggle between TV and PC monitor
-2. `Windows logo key + Shift + A` to toggle between TV/Reciever audio and Headset audio
-3. `Windows logo key + Shift + G` to toggle both.
+1. `Windows logo key + Ctrl + S` to toggle between TV and PC monitor
+2. `Windows logo key + Ctrl + A` to toggle between TV/Reciever audio and Headset audio
+3. `Windows logo key + Ctrl + G` to toggle both.
 
 ## How to install
 1. Clone/Download this repo.
