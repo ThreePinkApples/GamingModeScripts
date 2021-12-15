@@ -13,7 +13,7 @@ $HeadsetID = ""
 $ReceiverID = ""
 
 foreach($AudioDevice in Get-AudioDevice -List){
-    echo $AudioDevice
+    # echo $AudioDevice
     # It might be necessary to also match on Earphone so that
     # it doesn't pick the microphone (if the headset has a microphone).
     # if (($AudioDevice.Name -Match $HeadsetName) -and
