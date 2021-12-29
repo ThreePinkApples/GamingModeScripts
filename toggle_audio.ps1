@@ -12,17 +12,15 @@ $ReceiverName = "DENON-AVR"
 $HeadsetID = ""
 $ReceiverID = ""
 
-foreach($AudioDevice in Get-AudioDevice -List){
+foreach($AudioDevice in Get-AudioDevice -List) {
     # echo $AudioDevice
-    # It might be necessary to also match on Earphone so that
-    # it doesn't pick the microphone (if the headset has a microphone).
-    # if (($AudioDevice.Name -Match $HeadsetName) -and
-    #     ($AudioDevice.Name -Match "Earphone")){
-    if ($AudioDevice.Name -Match $HeadsetName){
-        $HeadsetID = $AudioDevice.ID
-    }
-    elseif ($AudioDevice.Name -Match $ReceiverName){
-        $ReceiverID = $AudioDevice.ID
+    if ($AudioDevice.Type -eq "Playback") {
+        if ($AudioDevice.Name -Match $HeadsetName) {
+            $HeadsetID = $AudioDevice.ID
+        }
+        elseif ($AudioDevice.Name -Match $ReceiverName) {
+            $ReceiverID = $AudioDevice.ID
+        }
     }
 }
 
