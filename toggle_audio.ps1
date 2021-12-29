@@ -1,8 +1,9 @@
-# PowerShell audio dll downloaded from https://github.com/frgnca/AudioDeviceCmdlets
-New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
-Copy-Item "$((Get-Location).tostring())\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
-Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
-Get-ChildItem | Unblock-File
+# PowerShell audio dll installed/downloaded from https://github.com/frgnca/AudioDeviceCmdlets
+# Uncomment the following 4 lines if you chose to download the .dll instead of installing.
+# New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
+# Copy-Item "$((Get-Location).tostring())\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
+# Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
+# Get-ChildItem | Unblock-File
 Import-Module AudioDeviceCmdlets
 
 # Replace HeadsetName and ReceiverName with the name of your device as seen in Windows audio settings.

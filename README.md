@@ -16,8 +16,8 @@ You can edit the shortcuts yourself in `auto_hot_keys.ahk`, but this are the cur
 1. Clone/Download this repo.
 	1. If downloaded as zip, remember to extract it.
 2. Download and install [AutoHotKey][1]
-3. Download [AudioDeviceCmdlets][2] (You only need the .dll file)
-	1. Move it into the same folder as this file.
+3. (Recommended) Install [AudioDeviceCmdlets][2].
+	1. (Alternative, old method) Download the .dll file and move it into the same folder as this file.
 4. Download [MultiMonitorTool][3] for x64 systems
 	1. Extract the contents into the same folder as this file.
 5. Edit `toggle_audio.ps1` and replace the names of the audio devices to your own (instructions are in the file)
