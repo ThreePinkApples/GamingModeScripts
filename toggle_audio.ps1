@@ -25,6 +25,15 @@ foreach($AudioDevice in Get-AudioDevice -List) {
         }
     }
 }
+if ($HeadsetID -eq "" -And $ReceiverID -eq "") {
+    Write-Error "Couldn't find headset device or receiver device. Please verify that they are connected, or there might be a typo in the script."
+    pause
+    exit
+} elseif ($HeadsetID -eq "") {
+    Write-Error "Couldn't find headset device"
+} elseif ($ReceiverID -eq "") {
+    Write-Error "Couldn't find receiver device"
+}
 
 $DefaultAudio = Get-AudioDevice -Playback
 # -PlaybackOnly param was introduced with
@@ -32,11 +41,11 @@ $DefaultAudio = Get-AudioDevice -Playback
 # and will require building AudioDeviceCmdlets.dll from source until the PR has been merged and released.
 # The parameter is only relevant for usecases where your default communication device is not the
 # same as your default playback device.
-if ($DefaultAudio.ID -eq $HeadsetID){
+if ($DefaultAudio.ID -eq $HeadsetID -Or $HeadsetID -eq "") {
     echo "Switching to receiver"
     Set-AudioDevice -ID $ReceiverID -PlaybackOnly
 }
-else{
+else {
     echo "Switching to headset"
     Set-AudioDevice -ID $HeadsetID -PlaybackOnly
 }
