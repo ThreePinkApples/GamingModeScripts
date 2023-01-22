@@ -36,16 +36,15 @@ if ($HeadsetID -eq "" -And $ReceiverID -eq "") {
 }
 
 $DefaultAudio = Get-AudioDevice -Playback
-# -PlaybackOnly param was introduced with
-# https://github.com/frgnca/AudioDeviceCmdlets/pull/48
-# and will require building AudioDeviceCmdlets.dll from source until the PR has been merged and released.
+# -DefaultOnly param was introduced with
+# https://github.com/frgnca/AudioDeviceCmdlets/pull/51
 # The parameter is only relevant for usecases where your default communication device is not the
 # same as your default playback device.
 if ($DefaultAudio.ID -eq $HeadsetID -Or $HeadsetID -eq "") {
     echo "Switching to receiver"
-    Set-AudioDevice -ID $ReceiverID -PlaybackOnly
+    Set-AudioDevice -ID $ReceiverID -DefaultOnly
 }
 else {
     echo "Switching to headset"
-    Set-AudioDevice -ID $HeadsetID -PlaybackOnly
+    Set-AudioDevice -ID $HeadsetID -DefaultOnly
 }
