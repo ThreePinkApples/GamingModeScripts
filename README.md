@@ -3,7 +3,7 @@
 A simple set of script for switching between "PC Monitor" and "TV" gaming modes.
 The real life setup here is that you have your PC hooked up to a gaming monitor and your TV, and you switch between which you use depending on the game you're playing.
 
-It uses [AutoHotkey](https://www.autohotkey.com/) to create the keyboard shortcuts to switch between the modes, PowerShell to do the actual switching, and some external libraries to help out with changing audio device and main monitor.
+It uses [AutoHotkey](https://www.autohotkey.com/) (v2) to create the keyboard shortcuts to switch between the modes, PowerShell to do the actual switching, and some external libraries to help out with changing audio device and main monitor.
 
 ## How to use
 You can edit the shortcuts yourself in `auto_hot_keys.ahk`, but this are the current shortcuts:

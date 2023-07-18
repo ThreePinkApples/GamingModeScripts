@@ -1,18 +1,21 @@
-﻿#Persistent
-#SingleInstance force
+﻿#SingleInstance force
+Persistent
 
 ^#a::
+{
 	toggleSound()
-Return
+}
 
 ^#s::
+{
 	toggleMainDisplay()
-Return
+}
 
 ^#g::
+{
 	toggleSound()
 	toggleMainDisplay()
-Return
+}
 
 toggleMainDisplay()
 {
@@ -26,5 +29,5 @@ toggleSound()
 
 runPowershell(scriptPath)
 {
-	RunWait, PowerShell.exe -ExecutionPolicy Bypass -Command %scriptPath%
+	RunWait "PowerShell.exe -ExecutionPolicy Bypass -Command " . scriptPath
 }
