@@ -4,6 +4,8 @@ Add-Type -AssemblyName System.Windows.Forms
 $screens = [System.Windows.Forms.Screen]::AllScreens
 $primary = $screens | Where-Object {$_.Primary -eq 'True'}
 $tv = $screens | Where-Object {$_.Bounds.Width -eq 3840 -And $_.Bounds.Height -eq 2160}
+# This is the "Short Monitor ID" found by running MultiMonitorTool.exe
+$monitorId = "ACR0490"
 if ($tv -eq $null) {
     # My TV has a resolution of 3840x2160, but with UI scaling set to 200%, so that's what I'm checking for here.
     # (My monitors are both 2560x1440)
@@ -13,11 +15,7 @@ if ($tv -eq $null) {
 }
 
 if ($primary.DeviceName -eq $tv.DeviceName) {
-    # The numbers here comes from MultiMonitorTool.exe
-    # You can run MultiMonitorTool.exe manually to get a window so you can see which number the monitors have
-    # AllScreens doesn't provide refresh rate info, so when there are multiple monitors with the same resolution you just have to hardcode the index.
-    # This index might change when disconnecting and reconnecting monitors, or when you buy a new monitor.
-    & $multiMonitor /SetPrimary 1
+    & $multiMonitor /SetPrimary $monitorId
 }
 else {
     & $multiMonitor /SetPrimary $tv.DeviceName
