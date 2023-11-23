@@ -10,7 +10,7 @@ Import-Module AudioDeviceCmdlets
 # Replace HeadsetName and ReceiverName with the name of your device as seen in Windows audio settings.
 # The names do not have to be exact.
 $HeadsetName = "Arctis 7 Game"
-$ReceiverName = "DENON-AVR"
+$ReceiverName = "LG TV SSCR2"
 $HeadsetID = ""
 $ReceiverID = ""
 
