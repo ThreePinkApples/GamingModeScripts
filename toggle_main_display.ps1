@@ -22,8 +22,8 @@ function Set-Primary {
     if ($Enable) {
         & $multiMonitor /enable $MonitorId
         # Some delay is required for the monitor to connect properly. Increase this if
-        # /SetPrimary fails
         Start-Sleep -Milliseconds 3000
+        # /SetPrimary fails to set the correct monitor
     }
     # After enabling the monitor its position is not what it should be in my case, so
     # it needs to be changed before setting primary. In this case the position
@@ -49,8 +49,7 @@ if ($MonitorId -ne "") {
 # If you use even higher scaling, such as 150%, this check will not work and you should hardcode the values
 $tv = $screens | Where-Object {$_.Bounds.Width -gt 2560 -And $_.Bounds.Height -gt 1440}
 if ($tv -eq $null) {
-    # You should change this value to match your TV and scaling combination. Run MultiMonitorTool, select your TV, and look for "Window Size" on the "Microsoft Text Input Application" row. That should be the Bounds.
-    # If your TV and PC monitor has the same resolution you could try checking for refresh rate.
+    # Fallback for 200% scaling
     $tv = $screens | Where-Object {$_.Bounds.Width -eq 1920 -And $_.Bounds.Height -eq 1080}
 }
 if ($primary.DeviceName -eq $tv.DeviceName) {
