@@ -22,8 +22,8 @@ function Set-Primary {
     if ($Enable) {
         & $multiMonitor /enable $MonitorId
         # Some delay is required for the monitor to connect properly. Increase this if
-        Start-Sleep -Milliseconds 3000
         # /SetPrimary fails to set the correct monitor
+        Start-Sleep -Milliseconds 5000
     }
     # After enabling the monitor its position is not what it should be in my case, so
     # it needs to be changed before setting primary. In this case the position
