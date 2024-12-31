@@ -20,23 +20,27 @@ function Set-Primary {
     # My TV can for some reason be set to disconnected in Windows and will thus require enabling before
     # setting it as primary
     if ($Enable) {
-        echo "Enabling"
-        & $multiMonitor /enable $MonitorId
+        if ($SetPosition) {
+            echo "Enabling ${MonitorId} with position ${PositionX} ${PositionY}"
+            # New command in MultiMonitorTool 2.15
+            & $multiMonitor /EnableAtPosition $MonitorId $PositionX $PositionY
+        }
+        else {
+            echo "Enabling ${MonitorId}"
+            & $multiMonitor /enable $MonitorId
+        }
         # Some delay is required for the monitor to connect properly. Increase this if
         # /SetPrimary fails to set the correct monitor
         Start-Sleep -Milliseconds 5200
     }
     # After enabling the monitor its position is not what it should be in my case, so
-    # it needs to be changed before setting primary. In this case the position
-    # should be the width of my other two monitors + some additional value or else the command
-    # does not appear to do anything.
-    # So my two monitors are aboth 2560 wide, so a PositionX of 5120 should be correct. But setting that value does nothing.
-    # Also trying something like 5220 also did nothing, but going all the way to 6120 did the trick
-    if ($SetPosition) {
+    # it needs to be changed before setting primary.
+    elseif ($SetPosition) {
         & $multiMonitor /SetMonitors "Name=${MonitorId} PositionX=${PositionX} PositionY=${PositionY}"
         # Some delay is required for this to be processed before /SetPrimary changes the Position values
         Start-Sleep -Milliseconds 2500
     }
+    echo "Setting ${MonitorId} as primary"
     & $multiMonitor /SetPrimary $MonitorId
 }
 
