@@ -29,5 +29,5 @@ toggleSound()
 
 runPowershell(scriptPath)
 {
-	RunWait "PowerShell.exe -ExecutionPolicy Bypass -Command " . scriptPath
+	RunWait "pwsh.exe -ExecutionPolicy Bypass -Command " . scriptPath
 }
