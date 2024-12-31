@@ -20,34 +20,29 @@ function Set-Primary {
     # My TV can for some reason be set to disconnected in Windows and will thus require enabling before
     # setting it as primary
     if ($Enable) {
-        if ($SetPosition) {
-            echo "Enabling ${MonitorId} with position ${PositionX} ${PositionY}"
-            # New command in MultiMonitorTool 2.15
-            & $multiMonitor /EnableAtPosition $MonitorId $PositionX $PositionY
-        }
-        else {
-            echo "Enabling ${MonitorId}"
-            & $multiMonitor /enable $MonitorId
-        }
+        echo "Enabling ${MonitorId}"
+        & $multiMonitor /enable $MonitorId | Wait-Process
         # Some delay is required for the monitor to connect properly. Increase this if
         # /SetPrimary fails to set the correct monitor
-        Start-Sleep -Milliseconds 5200
+        #Start-Sleep -Milliseconds 6200
     }
     # After enabling the monitor its position is not what it should be in my case, so
     # it needs to be changed before setting primary.
-    elseif ($SetPosition) {
-        & $multiMonitor /SetMonitors "Name=${MonitorId} PositionX=${PositionX} PositionY=${PositionY}"
+    if ($SetPosition) {
+        echo "Setting possition on ${MonitorId} to ${PositionX} ${PositionY}"
+        & $multiMonitor /SetMonitors "Name=${MonitorId} PositionX=${PositionX} PositionY=${PositionY}" | Wait-Process
         # Some delay is required for this to be processed before /SetPrimary changes the Position values
-        Start-Sleep -Milliseconds 2500
+        #Start-Sleep -Milliseconds 2500
     }
     echo "Setting ${MonitorId} as primary"
-    & $multiMonitor /SetPrimary $MonitorId
+    & $multiMonitor /SetPrimary $MonitorId | Wait-Process
 }
 
+$tvPositionX = 6400
 $multiMonitor = (Get-Location).tostring() + "\MultiMonitorTool\MultiMonitorTool.exe"
 if ($MonitorId -ne "") {
     $Enable = ($MonitorId -eq $tvMonitorId)
-    Set-Primary -MonitorId $MonitorId -Enable $Enable -SetPosition $Enable -PositionX 6120 -PositionY 0
+    Set-Primary -MonitorId $MonitorId -Enable $Enable -SetPosition $false -PositionX $tvPositionX -PositionY 0
     exit;
 }
 # The Bounds.Width/.Height are not as simple as the resolution, but the scaled values after using scaling. So on a 4K screen with 125% scaling Width is 3072, not 3840.
@@ -64,5 +59,5 @@ if ($primary.DeviceName -eq $tv.DeviceName) {
 }
 else {
     $Enable = ($tv -eq $null)
-    Set-Primary -MonitorId $tvMonitorId -Enable $Enable -SetPosition $Enable -PositionX 6120 -PositionY 0
+    Set-Primary -MonitorId $tvMonitorId -Enable $Enable -SetPosition $false -PositionX $tvPositionX -PositionY 0
 }
