@@ -20,10 +20,11 @@ function Set-Primary {
     # My TV can for some reason be set to disconnected in Windows and will thus require enabling before
     # setting it as primary
     if ($Enable) {
+        echo "Enabling"
         & $multiMonitor /enable $MonitorId
         # Some delay is required for the monitor to connect properly. Increase this if
         # /SetPrimary fails to set the correct monitor
-        Start-Sleep -Milliseconds 5000
+        Start-Sleep -Milliseconds 5200
     }
     # After enabling the monitor its position is not what it should be in my case, so
     # it needs to be changed before setting primary. In this case the position
@@ -34,7 +35,7 @@ function Set-Primary {
     if ($SetPosition) {
         & $multiMonitor /SetMonitors "Name=${MonitorId} PositionX=${PositionX} PositionY=${PositionY}"
         # Some delay is required for this to be processed before /SetPrimary changes the Position values
-        Start-Sleep -Milliseconds 500
+        Start-Sleep -Milliseconds 2500
     }
     & $multiMonitor /SetPrimary $MonitorId
 }
@@ -53,7 +54,7 @@ if ($tv -eq $null) {
     $tv = $screens | Where-Object {$_.Bounds.Width -eq 1920 -And $_.Bounds.Height -eq 1080}
 }
 if ($primary.DeviceName -eq $tv.DeviceName) {
-    Set-Primary -MonitorId $primaryGamingMonitorId
+    Set-Primary -MonitorId $primaryGamingMonitorId -Enable $false -SetPosition $false
 }
 else {
     $Enable = ($tv -eq $null)

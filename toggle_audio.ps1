@@ -27,7 +27,6 @@ foreach($AudioDevice in Get-AudioDevice -List) {
 }
 if ($HeadsetID -eq "" -And $ReceiverID -eq "") {
     Write-Error "Couldn't find headset device or receiver device. Please verify that they are connected, or there might be a typo in the script."
-    pause
     exit
 } elseif ($HeadsetID -eq "") {
     Write-Error "Couldn't find headset device"
