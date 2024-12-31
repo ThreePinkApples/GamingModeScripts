@@ -3,7 +3,7 @@ param(
     [string]$MonitorId = ""
 )
 # This is the "Short Monitor ID" found by running MultiMonitorTool.exe
-$primaryGamingMonitorId = "ACR0490"
+$primaryGamingMonitorId = "AUS32F2"
 $tvMonitorId = "GSM81CD"
 Add-Type -AssemblyName System.Windows.Forms
 $screens = [System.Windows.Forms.Screen]::AllScreens
