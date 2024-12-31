@@ -48,11 +48,13 @@ if ($MonitorId -ne "") {
 }
 # The Bounds.Width/.Height are not as simple as the resolution, but the scaled values after using scaling. So on a 4K screen with 125% scaling Width is 3072, not 3840.
 # If you use even higher scaling, such as 150%, this check will not work and you should hardcode the values
-$tv = $screens | Where-Object {$_.Bounds.Width -gt 2560 -And $_.Bounds.Height -gt 1440}
+$tv = $screens | Where-Object {$_.Bounds.Width -eq 3840 -And $_.Bounds.Height -eq 2160 }
 if ($tv -eq $null) {
     # Fallback for 200% scaling
     $tv = $screens | Where-Object {$_.Bounds.Width -eq 1920 -And $_.Bounds.Height -eq 1080}
 }
+#echo "TV: ${tv}"
+#echo "Primary: ${primary}"
 if ($primary.DeviceName -eq $tv.DeviceName) {
     Set-Primary -MonitorId $primaryGamingMonitorId -Enable $false -SetPosition $false
 }
