@@ -9,6 +9,26 @@ Add-Type -AssemblyName System.Windows.Forms
 $screens = [System.Windows.Forms.Screen]::AllScreens
 $primary = $screens | Where-Object {$_.Primary -eq 'True'}
 
+$Logfile = "${PSScriptRoot}\$(gc env:computername).log"
+
+function LogWrite {
+    param (
+        [string]$logstring,
+        [bool]$error = $false
+    )
+
+    $date = Get-Date -Format "o"
+    if ($error) {
+        Write-Error $logstring
+        Add-content $Logfile -value "[${date}] [ERROR] ${logstring}"
+    }
+    else {
+        Write-Output $logstring
+        Add-content $Logfile -value "[${date}] [INFO] ${logstring}"
+    }
+}
+LogWrite $PSVersionTable.PSVersion
+
 function Set-Primary {
     param (
         [string]$MonitorId,
@@ -20,7 +40,7 @@ function Set-Primary {
     # My TV can for some reason be set to disconnected in Windows and will thus require enabling before
     # setting it as primary
     if ($Enable) {
-        echo "Enabling ${MonitorId}"
+        LogWrite "Enabling ${MonitorId}"
         & $multiMonitor /enable $MonitorId | Wait-Process
         # Some delay is required for the monitor to connect properly. Increase this if
         # /SetPrimary fails to set the correct monitor
@@ -29,12 +49,12 @@ function Set-Primary {
     # After enabling the monitor its position is not what it should be in my case, so
     # it needs to be changed before setting primary.
     if ($SetPosition) {
-        echo "Setting possition on ${MonitorId} to ${PositionX} ${PositionY}"
+        LogWrite "Setting possition on ${MonitorId} to ${PositionX} ${PositionY}"
         & $multiMonitor /SetMonitors "Name=${MonitorId} PositionX=${PositionX} PositionY=${PositionY}" | Wait-Process
         # Some delay is required for this to be processed before /SetPrimary changes the Position values
         #Start-Sleep -Milliseconds 2500
     }
-    echo "Setting ${MonitorId} as primary"
+    LogWrite "Setting ${MonitorId} as primary"
     & $multiMonitor /SetPrimary $MonitorId | Wait-Process
 }
 
@@ -52,8 +72,8 @@ if ($tv -eq $null) {
     # Fallback for 200% scaling
     $tv = $screens | Where-Object {$_.Bounds.Width -eq 1920 -And $_.Bounds.Height -eq 1080}
 }
-#echo "TV: ${tv}"
-#echo "Primary: ${primary}"
+#LogWrite "TV: ${tv}"
+#LogWrite "Primary: ${primary}"
 if ($primary.DeviceName -eq $tv.DeviceName) {
     Set-Primary -MonitorId $primaryGamingMonitorId -Enable $false -SetPosition $false
 }

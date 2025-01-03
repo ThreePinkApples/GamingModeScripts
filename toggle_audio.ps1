@@ -14,8 +14,28 @@ $ReceiverName = "LG TV SSCR2"
 $HeadsetID = ""
 $ReceiverID = ""
 
+$Logfile = "${PSScriptRoot}\$(gc env:computername).log"
+
+function LogWrite {
+    param (
+        [string]$logstring,
+        [bool]$error = $false
+    )
+
+    $date = Get-Date -Format "o"
+    if ($error) {
+        Write-Error $logstring
+        Add-content $Logfile -value "[${date}] [ERROR] ${logstring}"
+    }
+    else {
+        Write-Output $logstring
+        Add-content $Logfile -value "[${date}] [INFO] ${logstring}"
+    }
+}
+LogWrite $PSVersionTable.PSVersion
+
 foreach($AudioDevice in Get-AudioDevice -List) {
-    # echo $AudioDevice
+    # LogWrite $AudioDevice
     if ($AudioDevice.Type -eq "Playback") {
         if ($AudioDevice.Name -Match $HeadsetName) {
             $HeadsetID = $AudioDevice.ID
@@ -26,12 +46,12 @@ foreach($AudioDevice in Get-AudioDevice -List) {
     }
 }
 if ($HeadsetID -eq "" -And $ReceiverID -eq "") {
-    Write-Error "Couldn't find headset device or receiver device. Please verify that they are connected, or there might be a typo in the script."
+    LogWrite "Couldn't find headset device or receiver device. Please verify that they are connected, or there might be a typo in the script." $true
     exit
 } elseif ($HeadsetID -eq "") {
-    Write-Error "Couldn't find headset device"
+    LogWrite "Couldn't find headset device" $true
 } elseif ($ReceiverID -eq "") {
-    Write-Error "Couldn't find receiver device"
+    LogWrite "Couldn't find receiver device" $true
 }
 
 $DefaultAudio = Get-AudioDevice -Playback
@@ -40,10 +60,10 @@ $DefaultAudio = Get-AudioDevice -Playback
 # The parameter is only relevant for usecases where your default communication device is not the
 # same as your default playback device.
 if ($DefaultAudio.ID -eq $HeadsetID -Or $HeadsetID -eq "") {
-    echo "Switching to receiver"
+    LogWrite "Switching to receiver"
     Set-AudioDevice -ID $ReceiverID -DefaultOnly
 }
 else {
-    echo "Switching to headset"
+    LogWrite "Switching to headset"
     Set-AudioDevice -ID $HeadsetID -DefaultOnly
 }
