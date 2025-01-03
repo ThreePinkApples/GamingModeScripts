@@ -39,7 +39,7 @@ function Set-Primary {
 }
 
 $tvPositionX = 6400
-$multiMonitor = (Get-Location).tostring() + "\MultiMonitorTool\MultiMonitorTool.exe"
+$multiMonitor = "${PSScriptRoot}\MultiMonitorTool\MultiMonitorTool.exe"
 if ($MonitorId -ne "") {
     $Enable = ($MonitorId -eq $tvMonitorId)
     Set-Primary -MonitorId $MonitorId -Enable $Enable -SetPosition $false -PositionX $tvPositionX -PositionY 0
